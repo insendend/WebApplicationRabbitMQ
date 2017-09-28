@@ -54,8 +54,6 @@ namespace ClassesLib.Rabbit
                         client.Send(JsonConvert.SerializeObject(taskInfo));
 
                         response = client.Receive();
-
-                        //response = JsonConvert.SerializeObject(taskInfo);
                     }
                     catch (Exception e)
                     {

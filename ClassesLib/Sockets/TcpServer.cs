@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -28,35 +29,42 @@ namespace ClassesLib.Sockets
             try
             {
                 server.Bind(endPoint);
-
                 server.Listen(clientCount);
                 Console.WriteLine("Wait for clients...");
+
                 while (true)
                 {
                     var client = await Task.Run(() => server.Accept());
                     Console.WriteLine($"Client '{client.RemoteEndPoint}' connected.");
 
-                    var buf = new byte[4096];
-                    var recv = await Task.Run(() => client.Receive(buf));
-
-                    var msg = Encoding.Unicode.GetString(buf, 0, recv);
+                    var recvBytes = await Receive(client);
+                    var msg = Encoding.Unicode.GetString(recvBytes);
 
                     var taskInfo = JsonConvert.DeserializeObject<TaskInfo>(msg);
-
-                    if (taskInfo is null) return;
+                    if (taskInfo is null)
+                        return;
 
                     taskInfo.AddHours(1);
 
-                    var newMsg = JsonConvert.SerializeObject(taskInfo);
-                    buf = Encoding.Unicode.GetBytes(newMsg);
+                    var updatedTaskInfo = JsonConvert.SerializeObject(taskInfo);
+                    var updatedTaskInfoBytes = Encoding.Unicode.GetBytes(updatedTaskInfo);
 
-                    var sent = await Task.Run(() => client.Send(buf));
-                    Console.WriteLine($"Sent {sent} bytes");
+                    var sentBytes = await Task.Run(() => client.Send(updatedTaskInfoBytes));
+                    Console.WriteLine($"Sent {sentBytes} bytes");
                 }
             }
             catch (SocketException ex)
             {
                 Console.WriteLine("SocketException");
+
+                foreach (var client in clients)
+                {
+                    if (!client.Connected)
+                    {
+                        Console.WriteLine($"Client {client.RemoteEndPoint} is off");
+                        client.Close();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -64,8 +72,32 @@ namespace ClassesLib.Sockets
             }
         }
 
+        private async Task<byte[]> Receive(Socket client)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var buff = new byte[4096];
+
+                while (true)
+                {
+                    var recv = await Task.Run(() => client.Receive(buff));
+                    await ms.WriteAsync(buff, 0, recv);
+
+                    if (recv < buff.Length)
+                        break;
+
+                    Array.Clear(buff, 0, recv);
+                }
+
+                return ms.ToArray();
+            }
+        }
+
         public void Close()
         {
+            if (server is null)
+                return;
+
             server.Close();
             server = null;
         }
