@@ -42,7 +42,7 @@ namespace WebApplication1.Controllers
                 response = rpcClient.Call(data);
                 rpcClient.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // 
             }

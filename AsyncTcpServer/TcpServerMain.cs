@@ -4,14 +4,17 @@ using ClassesLib.Sockets;
 
 namespace AsyncTcpServer
 {
-    class Program
+    class TcpServerMain
     {
         static void Main(string[] args)
         {
-            var serv = new TcpServer(IPAddress.Any, 3333);
+            Console.Title = "TCP Server";
 
+            var serv = new TcpServer(IPAddress.Any, 3333);
             serv.Start();
 
+            Console.WriteLine("Press [enter] to exit.");
+            Console.WriteLine();
             Console.ReadLine();
         }
     }

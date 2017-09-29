@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using ClassesLib.Serialization;
 
 namespace ClassesLib.Sockets
 {
-    public class TcpServer
+    public class TcpServer : IServer
     {
         private Socket server;
         private IPEndPoint endPoint;
@@ -24,13 +22,13 @@ namespace ClassesLib.Sockets
             endPoint = new IPEndPoint(ip, port);
         }
 
-        public async Task Start()
+        public async void Start()
         {
             try
             {
                 server.Bind(endPoint);
                 server.Listen(clientCount);
-                Console.WriteLine("Wait for clients...");
+                Console.WriteLine($"Awaiting for TCP requests at {server.LocalEndPoint}...");
 
                 while (true)
                 {
@@ -38,22 +36,22 @@ namespace ClassesLib.Sockets
                     Console.WriteLine($"Client '{client.RemoteEndPoint}' connected.");
 
                     var recvBytes = await Receive(client);
-                    var msg = Encoding.Unicode.GetString(recvBytes);
+                    Console.WriteLine($"Received from client: {recvBytes} bytes");
 
-                    var taskInfo = JsonConvert.DeserializeObject<TaskInfo>(msg);
-                    if (taskInfo is null)
-                        return;
+                    ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+                    var taskInfo = serializer.Desirialize(recvBytes);
+
+                    if (taskInfo is null) return;
 
                     taskInfo.AddHours(1);
 
-                    var updatedTaskInfo = JsonConvert.SerializeObject(taskInfo);
-                    var updatedTaskInfoBytes = Encoding.Unicode.GetBytes(updatedTaskInfo);
+                    var objAsBytes = serializer.Serialize(taskInfo);
 
-                    var sentBytes = await Task.Run(() => client.Send(updatedTaskInfoBytes));
-                    Console.WriteLine($"Sent {sentBytes} bytes");
+                    var sentBytes = await Task.Run(() => client.Send(objAsBytes));
+                    Console.WriteLine($"Sent to client: {sentBytes} bytes");
                 }
             }
-            catch (SocketException ex)
+            catch (SocketException)
             {
                 Console.WriteLine("SocketException");
 
@@ -70,6 +68,11 @@ namespace ClassesLib.Sockets
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        public void Stop()
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<byte[]> Receive(Socket client)

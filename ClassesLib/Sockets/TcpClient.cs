@@ -1,44 +1,49 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 namespace ClassesLib.Sockets
 {
-    public class TcpClient
+    public class TcpClient : IClient
     {
         private Socket client;
-        private IPEndPoint endPoint;
 
-        public TcpClient(IPAddress ip, int port)
+        public TcpClient()
         {
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            endPoint = new IPEndPoint(ip, port);
         }
 
-        public int Send(string msg)
+        public void Connect(IPEndPoint endPoint)
         {
-            try
-            {
-                client.Connect(endPoint);
-                Console.WriteLine("Connected");
-
-                return client.Send(Encoding.Unicode.GetBytes(msg));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return -1;
-            }
+            client.Connect(endPoint);
         }
 
-        public string Receive()
+        public int Send(byte[] msgBytes)
         {
-            var buf = new byte[4096];
+            return client.Send(msgBytes);
+        }
 
-            var recv = client.Receive(buf);
-            var response = Encoding.Unicode.GetString(buf, 0, recv);
-            return response;
+        public byte[] Receive()
+        {
+            using (var ms = new MemoryStream())
+            {
+                var buff = new byte[4096];
+
+                while (true)
+                {
+                    var recv = client.Receive(buff);
+                    ms.WriteAsync(buff, 0, recv);
+
+                    if (recv < buff.Length)
+                        break;
+
+                    Array.Clear(buff, 0, recv);
+                }
+
+                return ms.ToArray();
+            }
         }
 
         public void Close()

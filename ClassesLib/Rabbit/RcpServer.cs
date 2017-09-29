@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using ClassesLib.Serialization;
 using ClassesLib.Sockets;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Newtonsoft.Json;
 
 namespace ClassesLib.Rabbit
 {
@@ -12,7 +12,7 @@ namespace ClassesLib.Rabbit
     {
         public void Start()
         {
-            var factory = new ConnectionFactory() {HostName = "localhost"};
+            var factory = new ConnectionFactory {HostName = "localhost"};
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
@@ -32,28 +32,37 @@ namespace ClassesLib.Rabbit
                     autoAck: false, 
                     consumer: consumer);
 
-                Console.WriteLine(" [x] Awaiting RPC requests");
+                Console.WriteLine($"Awaiting RPC requests at channel #{channel.ChannelNumber}...");
 
                 consumer.Received += (model, ea) =>
                 {
                     string response = null;
 
                     var body = ea.Body;
+                    Console.WriteLine($"Received: {body.Length} bytes");
+
                     var props = ea.BasicProperties;
                     var replyProps = channel.CreateBasicProperties();
                     replyProps.CorrelationId = props.CorrelationId;
 
                     try
                     {
-                        var msg = Encoding.UTF8.GetString(body);
-
-                        var taskInfo = JsonConvert.DeserializeObject<TaskInfo>(msg);
+                        ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+                        
+                        var taskInfo = serializer.Desirialize(body);
                         taskInfo.AddHours(1);
+                        var objAsBytes = serializer.Serialize(taskInfo);
 
-                        var client = new TcpClient(IPAddress.Loopback, 3333);
-                        client.Send(JsonConvert.SerializeObject(taskInfo));
+                        var client = new TcpClient();
+                        client.Connect(new IPEndPoint(IPAddress.Loopback, 3333));
+                        client.Send(objAsBytes);
+                        Console.WriteLine($"Sent: {objAsBytes.Length} bytes");
 
-                        response = client.Receive();
+
+                        var recvBytes = client.Receive();
+                        Console.WriteLine($"Received back: {recvBytes.Length} bytes");
+
+                        response = Encoding.UTF8.GetString(recvBytes);
                     }
                     catch (Exception e)
                     {
@@ -63,6 +72,7 @@ namespace ClassesLib.Rabbit
                     finally
                     {
                         var responseBytes = Encoding.UTF8.GetBytes(response);
+                        Console.WriteLine($"Sent back: {responseBytes.Length} bytes");
 
                         channel.BasicPublish(
                             exchange: "", 
@@ -75,13 +85,7 @@ namespace ClassesLib.Rabbit
                             multiple: false);
                     }
                 };
-
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
             }
         }
-
-
-
     }
 }
