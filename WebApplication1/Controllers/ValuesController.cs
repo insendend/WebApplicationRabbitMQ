@@ -43,7 +43,6 @@ namespace WebApplication1.Controllers
 
                 var rpcClient = new RpcClient(settings);
                 response = rpcClient.Call(data);
-                rpcClient.Close();
             }
             catch (Exception)
             {
