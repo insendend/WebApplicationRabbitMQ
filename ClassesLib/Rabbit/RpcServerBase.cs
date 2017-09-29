@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

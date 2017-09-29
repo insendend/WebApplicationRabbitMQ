@@ -1,5 +1,6 @@
 ﻿using System;
 using ClassesLib.Rabbit;
+using ClassesLib.Rabbit.Settings;
 
 namespace RabbitMqConsumer
 {
@@ -9,7 +10,7 @@ namespace RabbitMqConsumer
         {
             Console.Title = "RPC Server";
 
-            var settings = new RabbitSettings {HostName = "localhost", QueueName = "rpc_queue"};
+            var settings = new RabbitServSettings { HostName = "localhost", QueueName = "rpc_queue"};
             var rcpServer = new RpcServer(settings);
             rcpServer.Start();
 

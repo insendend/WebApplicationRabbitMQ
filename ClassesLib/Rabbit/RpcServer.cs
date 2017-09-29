@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
 using ClassesLib.Sockets;
 using RabbitMQ.Client;

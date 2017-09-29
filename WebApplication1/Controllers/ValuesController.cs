@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ClassesLib;
 using ClassesLib.Rabbit;
+using ClassesLib.Rabbit.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -38,7 +39,9 @@ namespace WebApplication1.Controllers
 
                 var data = JsonConvert.SerializeObject(value);
 
-                var rpcClient = new RpcClient();
+                var settings = new RabbitClientSettings {HostName = "localhost", QueueName = "rpc_client"};
+
+                var rpcClient = new RpcClient(settings);
                 response = rpcClient.Call(data);
                 rpcClient.Close();
             }
