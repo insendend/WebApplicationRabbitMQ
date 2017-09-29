@@ -27,6 +27,7 @@ namespace ClassesLib.Rabbit
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
+
             replyQueueName = channel.QueueDeclare().QueueName;
             consumer = new EventingBasicConsumer(channel);
 
@@ -44,7 +45,7 @@ namespace ClassesLib.Rabbit
         {
             var messageBytes = Encoding.UTF8.GetBytes(message);
             channel.BasicPublish(
-                exchange: "",
+                exchange: settings.Exchange,
                 routingKey: settings.QueueName,
                 basicProperties: props,
                 body: messageBytes);

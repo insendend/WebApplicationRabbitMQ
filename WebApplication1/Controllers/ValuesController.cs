@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
 
                 var data = JsonConvert.SerializeObject(value);
 
-                var settings = new RabbitClientSettings {HostName = "localhost", QueueName = "rpc_client"};
+                var settings = new RabbitClientSettings {HostName = "localhost", QueueName = "rpc_queue", Exchange = "exch"};
 
                 var rpcClient = new RpcClient(settings);
                 response = rpcClient.Call(data);

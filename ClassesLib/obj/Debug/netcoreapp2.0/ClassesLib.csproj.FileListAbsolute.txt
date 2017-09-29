@@ -21,3 +21,4 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\Classe
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.AssemblyInfo.cs
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.pdb
+C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csprojResolveAssemblyReference.cache

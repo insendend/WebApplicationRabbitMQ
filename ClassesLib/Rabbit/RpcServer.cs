@@ -57,7 +57,7 @@ namespace ClassesLib.Rabbit
                 Console.WriteLine($"Sent back: {responseBytes.Length} bytes");
 
                 channel.BasicPublish(
-                    exchange: "",
+                    exchange: "exch",
                     routingKey: props.ReplyTo,
                     basicProperties: replyProps,
                     body: responseBytes);

@@ -8,5 +8,7 @@
         public string Password { get; set; }
          
         public string QueueName { get; set; }
+
+        public string Exchange { get; set; }
     }
 }

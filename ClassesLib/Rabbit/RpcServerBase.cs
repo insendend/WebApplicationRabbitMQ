@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -21,6 +19,10 @@ namespace ClassesLib.Rabbit
             var factory = new ConnectionFactory { HostName = this.settings.HostName };
             var connection = factory.CreateConnection();
             channel = connection.CreateModel();
+
+            channel.QueueBind(queue: settings.QueueName,
+                exchange: settings.Exchange,
+                routingKey: "");
         }
 
         public virtual void Start()
