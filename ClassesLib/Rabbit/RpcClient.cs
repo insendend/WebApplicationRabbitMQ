@@ -25,27 +25,5 @@ namespace ClassesLib.Rabbit
                 respQueue.Add(response);
             }
         }
-
-        public string Call(string message)
-        {
-            var messageBytes = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(
-                exchange: "",
-                routingKey: settings.QueueName,
-                basicProperties: props,
-                body: messageBytes);
-
-            channel.BasicConsume(
-                consumer: consumer,
-                queue: replyQueueName,
-                autoAck: true);
-
-            return respQueue.Take(); ;
-        }
-
-        public void Close()
-        {
-            connection.Close();
-        }
     }
 }
