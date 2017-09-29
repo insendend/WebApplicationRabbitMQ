@@ -10,13 +10,14 @@ namespace RabbitMqConsumer
         {
             Console.Title = "RPC Server";
 
-            var settings = new RabbitServSettings { HostName = "localhost", QueueName = "rpc_queue", Exchange = "exch"};
+            var settings = new RabbitServSettings
+            {
+                QueueName = "rpc_queue",
+                Exchange = "exch-rpc"
+            };
+
             var rcpServer = new RpcServer(settings);
             rcpServer.Start();
-
-            Console.WriteLine("Press [enter] to exit.");
-            Console.WriteLine();
-            Console.ReadLine();
         }
     }
 }

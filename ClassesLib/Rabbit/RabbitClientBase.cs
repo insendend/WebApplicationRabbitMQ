@@ -12,30 +12,42 @@ namespace ClassesLib.Rabbit
     {
         protected RabbitSettings settings;
 
-        protected readonly IConnection connection;
-        protected readonly IModel channel;
-        protected readonly string replyQueueName;
-        protected readonly EventingBasicConsumer consumer;
-        protected readonly BlockingCollection<string> respQueue = new BlockingCollection<string>();
-        protected readonly IBasicProperties props;
+        protected IConnection connection;
+        protected IModel channel;
+        protected string replyQueueName;
+        protected EventingBasicConsumer consumer;
+        protected BlockingCollection<string> respQueue = new BlockingCollection<string>();
+        protected IBasicProperties props;
 
-        protected readonly string correlationId;
+        protected string correlationId;
 
         protected RabbitClientBase(RabbitSettings settings)
         {
-            var factory = new ConnectionFactory { HostName = settings.HostName };
+            this.settings = settings;
+            SetupClient();
+        }
+
+        private void SetupClient()
+        {
+            var factory = new ConnectionFactory
+            {
+                HostName = settings.HostName,
+                UserName = settings.Login,
+                Password = settings.Password
+            };
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
             replyQueueName = channel.QueueDeclare().QueueName;
-            consumer = new EventingBasicConsumer(channel);
 
             props = channel.CreateBasicProperties();
             correlationId = Guid.NewGuid().ToString();
             props.CorrelationId = correlationId;
             props.ReplyTo = replyQueueName;
 
+
+            consumer = new EventingBasicConsumer(channel);
             consumer.Received += MessageReceived;
         }
 
@@ -55,7 +67,7 @@ namespace ClassesLib.Rabbit
                 queue: replyQueueName,
                 autoAck: true);
 
-            return respQueue.Take(); ;
+            return respQueue.Take();
         }
 
         public void Dispose()

@@ -36,7 +36,7 @@ namespace ClassesLib.Sockets
                     Console.WriteLine($"Client '{client.RemoteEndPoint}' connected.");
 
                     var recvBytes = await Receive(client);
-                    Console.WriteLine($"Received from client: {recvBytes} bytes");
+                    Console.WriteLine($"Received from client: {recvBytes.Length} bytes");
 
                     ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
                     var taskInfo = serializer.Desirialize(recvBytes);

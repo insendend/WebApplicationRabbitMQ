@@ -48,7 +48,7 @@ namespace ClassesLib.Rabbit
             }
             catch (Exception e)
             {
-                Console.WriteLine(" [.] " + e.Message);
+                Console.WriteLine("[.] " + e.Message);
                 response = "";
             }
             finally
@@ -57,7 +57,7 @@ namespace ClassesLib.Rabbit
                 Console.WriteLine($"Sent back: {responseBytes.Length} bytes");
 
                 channel.BasicPublish(
-                    exchange: "exch",
+                    exchange: "",
                     routingKey: props.ReplyTo,
                     basicProperties: replyProps,
                     body: responseBytes);

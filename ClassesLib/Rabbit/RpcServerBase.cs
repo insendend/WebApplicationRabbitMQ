@@ -15,37 +15,44 @@ namespace ClassesLib.Rabbit
         protected RpcServerBase(RabbitSettings settings)
         {
             this.settings = settings;
+            SetupServer();
+        }
 
-            var factory = new ConnectionFactory { HostName = this.settings.HostName };
+        private void SetupServer()
+        {
+            var factory = new ConnectionFactory
+            {
+                HostName = settings.HostName,
+                UserName = settings.Login,
+                Password = settings.Password, 
+            };
+
             var connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueBind(queue: settings.QueueName,
-                exchange: settings.Exchange,
-                routingKey: "");
+            channel.BasicQos(0, 1, false);
+
+            //channel.QueueBind(
+            //    queue: settings.QueueName,
+            //    exchange: settings.Exchange,
+            //    routingKey: settings.RoutingKey);
+
+            consumer = new EventingBasicConsumer(channel);
+            consumer.Received += MessageReceived;
+
+            Console.WriteLine($"Awaiting RPC requests at channel #{channel.ChannelNumber}...");
         }
 
         public virtual void Start()
         {
-            //channel.QueueDeclare(
-            //    queue: settings.QueueName,
-            //    durable: false,
-            //    exclusive: false,
-            //    autoDelete: false,
-            //    arguments: null);
-
-            channel.BasicQos(0, 1, false);
-
-            consumer = new EventingBasicConsumer(channel);
-
             channel.BasicConsume(
                 queue: settings.QueueName,
-                autoAck: false,
+                autoAck: true,
                 consumer: consumer);
 
-            Console.WriteLine($"Awaiting RPC requests at channel #{channel.ChannelNumber}...");
-
-            consumer.Received += MessageReceived;
+            Console.WriteLine("Press [enter] to exit.");
+            Console.WriteLine();
+            Console.ReadLine();
         }
 
         protected abstract void MessageReceived(object sender, BasicDeliverEventArgs ea);
