@@ -8,7 +8,9 @@ namespace RabbitMqConsumer
         static void Main(string[] args)
         {
             Console.Title = "RPC Server";
-            var rcpServer = new RcpServer();
+
+            var settings = new RabbitSettings {HostName = "localhost", QueueName = "rpc_queue"};
+            var rcpServer = new RpcServer(settings);
             rcpServer.Start();
 
             Console.WriteLine("Press [enter] to exit.");
