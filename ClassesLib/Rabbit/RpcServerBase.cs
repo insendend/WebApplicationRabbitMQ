@@ -7,12 +7,12 @@ namespace ClassesLib.Rabbit
 {
     public abstract class RpcServerBase : IDisposable
     {
-        protected RabbitSettings settings;
+        protected RabbitServSettings settings;
 
         protected IModel channel;
         protected EventingBasicConsumer consumer;
 
-        protected RpcServerBase(RabbitSettings settings)
+        protected RpcServerBase(RabbitServSettings settings)
         {
             this.settings = settings;
             SetupServer();
@@ -32,22 +32,17 @@ namespace ClassesLib.Rabbit
 
             channel.BasicQos(0, 1, false);
 
-            //channel.QueueBind(
-            //    queue: settings.QueueName,
-            //    exchange: settings.Exchange,
-            //    routingKey: settings.RoutingKey);
-
             consumer = new EventingBasicConsumer(channel);
             consumer.Received += MessageReceived;
 
-            Console.WriteLine($"Awaiting RPC requests at channel #{channel.ChannelNumber}...");
+            Console.WriteLine("Awaiting RPC requests...");
         }
 
         public virtual void Start()
         {
             channel.BasicConsume(
                 queue: settings.QueueName,
-                autoAck: true,
+                autoAck: false,
                 consumer: consumer);
 
             Console.WriteLine("Press [enter] to exit.");

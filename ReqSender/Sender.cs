@@ -3,36 +3,36 @@ using System.Net.Http;
 using System.Text;
 using ClassesLib;
 using ClassesLib.Http;
-using Newtonsoft.Json;
+using ClassesLib.Serialization;
 
 namespace ReqSender
 {
     class Sender
     {
-        private static CustomHttpResult Post(TaskInfo value)
+        private static CustomHttpResult Post(Uri uri, TaskInfo value)
         {
-            const string url = "http://localhost:59856/api/values/";
-
-            IHttpProvider httpProvider = new HttpProvider();
-
             if (value is null)
                 throw new ArgumentNullException(nameof(value));
 
-            var jsonString = JsonConvert.SerializeObject(value);
+            IHttpProvider httpProvider = new HttpProvider();
+            ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+
+            var objAsJson = serializer.SerializeToJson(value);
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(url),
+                RequestUri = uri,
                 Method = HttpMethod.Post,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
+                Content = new StringContent(objAsJson, Encoding.UTF8, "application/json"),
             };
 
             return httpProvider.ProcessRequest(request);
         }
 
-
         static void Main(string[] args)
         {
+            var uri = new Uri("http://localhost:59856/api/values/");
+
             var taskInfo = new TaskInfo
             {
                 Title = "Main",
@@ -42,10 +42,17 @@ namespace ReqSender
 
             try
             {
-                var res = Post(taskInfo);
-                var updatedTaskInfo = JsonConvert.DeserializeObject<TaskInfo>(res.Content);
+                var res = Post(uri, taskInfo);
 
-                Console.WriteLine(updatedTaskInfo.Time);
+                if (!res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Bad request, Code: {res.HttpStatusCode}");
+                    return;
+                }
+
+                ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+                var updatedTaskInfo = serializer.DesirializeToObj(res.Content);
+                Console.WriteLine($"Updated time: {updatedTaskInfo?.Time}");
             }
             catch (Exception e)
             {

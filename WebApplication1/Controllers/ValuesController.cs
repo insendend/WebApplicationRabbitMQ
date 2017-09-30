@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ClassesLib;
 using ClassesLib.Rabbit;
 using ClassesLib.Rabbit.Settings;
+using ClassesLib.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
@@ -27,29 +28,31 @@ namespace WebApplication1.Controllers
 
         // POST api/values
         [HttpPost]
-        public string Post(TaskInfo value)
+        public IActionResult Post([FromBody]TaskInfo value)
         {
-            var response = string.Empty;
-
             if (value is null)
-                return response;
+                return BadRequest();
+
+            string response;
+            ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+
             try
             {
                 value.AddHours(1);
-
-                var data = JsonConvert.SerializeObject(value);
+  
+                var objAsJson = serializer.SerializeToJson(value);
 
                 var settings = new RabbitClientSettings {HostName = "localhost", QueueName = "rpc_queue", Exchange = "exch-rpc" };
-
                 var rpcClient = new RpcClient(settings);
-                response = rpcClient.Call(data);
+                response = rpcClient.Call(objAsJson);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // 
+                Debug.WriteLine(e.Message);
+                return new EmptyResult();
             }
-
-            return response;
+            
+            return new ObjectResult(serializer.DesirializeToObj(response));
         }
 
         // PUT api/values/5

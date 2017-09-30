@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
@@ -10,7 +9,7 @@ namespace ClassesLib.Rabbit
 {
     public abstract class RabbitClientBase : IDisposable
     {
-        protected RabbitSettings settings;
+        protected RabbitClientSettings settings;
 
         protected IConnection connection;
         protected IModel channel;
@@ -21,7 +20,7 @@ namespace ClassesLib.Rabbit
 
         protected string correlationId;
 
-        protected RabbitClientBase(RabbitSettings settings)
+        protected RabbitClientBase(RabbitClientSettings settings)
         {
             this.settings = settings;
             SetupClient();

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Text;
 using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
 using ClassesLib.Sockets;
+using ClassesLib.Sockets.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -11,9 +11,8 @@ namespace ClassesLib.Rabbit
 {
     public class RpcServer : RpcServerBase
     {
-        public RpcServer(RabbitSettings settings) : base(settings)
+        public RpcServer(RabbitServSettings settings) : base(settings)
         {
-
         }
 
         protected override void MessageReceived(object sender, BasicDeliverEventArgs ea)
@@ -31,12 +30,13 @@ namespace ClassesLib.Rabbit
             {
                 ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
 
-                var taskInfo = serializer.Desirialize(body);
+                var taskInfo = serializer.DesirializeToObj(body);
                 taskInfo.AddHours(1);
-                var objAsBytes = serializer.Serialize(taskInfo);
+                var objAsBytes = serializer.SerializeToBytes(taskInfo);
 
-                var client = new TcpClient();
-                client.Connect(new IPEndPoint(IPAddress.Loopback, 3333));
+                var tcpSettings = TcpClientSettings.CreateDefault();
+                var client = new TcpClient(tcpSettings);
+                client.Connect();
                 client.Send(objAsBytes);
                 Console.WriteLine($"Sent: {objAsBytes.Length} bytes");
 
