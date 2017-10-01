@@ -1,16 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using ClassesLib.Sockets.Settings;
+﻿using ClassesLib.Sockets.Settings;
 
-namespace ClassesLib.Sockets
+namespace ClassesLib.Sockets.Client
 {
     public class TcpClient : TcpClientBase
     {
         public TcpClient(TcpClientSettings settings) : base(settings)
         {
         }
-
     }
 }

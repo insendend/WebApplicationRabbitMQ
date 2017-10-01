@@ -1,5 +1,6 @@
 ﻿using System;
 using ClassesLib.Rabbit;
+using ClassesLib.Rabbit.Server;
 using ClassesLib.Rabbit.Settings;
 
 namespace RabbitMqConsumer

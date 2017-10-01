@@ -3,7 +3,7 @@ using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace ClassesLib.Rabbit
+namespace ClassesLib.Rabbit.Server
 {
     public abstract class RpcServerBase : IDisposable
     {

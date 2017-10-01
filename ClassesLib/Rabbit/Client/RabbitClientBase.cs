@@ -5,7 +5,7 @@ using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace ClassesLib.Rabbit
+namespace ClassesLib.Rabbit.Client
 {
     public abstract class RabbitClientBase : IDisposable
     {

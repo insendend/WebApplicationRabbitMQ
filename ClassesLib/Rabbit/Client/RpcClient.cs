@@ -2,7 +2,7 @@
 using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client.Events;
 
-namespace ClassesLib.Rabbit
+namespace ClassesLib.Rabbit.Client
 {
     public class RpcClient : RabbitClientBase
     {

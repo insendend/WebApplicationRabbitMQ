@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using ClassesLib;
-using ClassesLib.Rabbit;
+using ClassesLib.Rabbit.Client;
 using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly ILogger<ValuesController> logger;
+
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            this.logger = logger;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -33,9 +42,10 @@ namespace WebApplication1.Controllers
             if (value is null)
                 return BadRequest();
 
+            logger.LogInformation("{methodName} request for {@taskInfo}", nameof(Post), value);
             string response;
             ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
-
+            
             try
             {
                 value.AddHours(1);

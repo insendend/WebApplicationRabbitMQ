@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
-using ClassesLib.Sockets;
+using ClassesLib.Sockets.Client;
 using ClassesLib.Sockets.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace ClassesLib.Rabbit
+namespace ClassesLib.Rabbit.Server
 {
     public class RpcServer : RpcServerBase
     {
@@ -15,7 +16,7 @@ namespace ClassesLib.Rabbit
         {
         }
 
-        protected override void MessageReceived(object sender, BasicDeliverEventArgs ea)
+        protected override async void MessageReceived(object sender, BasicDeliverEventArgs ea)
         {
             string response = null;
 
@@ -34,14 +35,12 @@ namespace ClassesLib.Rabbit
                 taskInfo.AddHours(1);
                 var objAsBytes = serializer.SerializeToBytes(taskInfo);
 
-                var tcpSettings = TcpClientSettings.CreateDefault();
+                var tcpSettings = new TcpClientSettings {Ip = IPAddress.Loopback, Port = 3333};
                 var client = new TcpClient(tcpSettings);
-                client.Connect();
-                client.Send(objAsBytes);
+                await client.SendAsync(objAsBytes);
                 Console.WriteLine($"Sent: {objAsBytes.Length} bytes");
 
-
-                var recvBytes = client.Receive();
+                var recvBytes = await client.ReceiveAsync();
                 Console.WriteLine($"Received back: {recvBytes.Length} bytes");
 
                 response = Encoding.UTF8.GetString(recvBytes);

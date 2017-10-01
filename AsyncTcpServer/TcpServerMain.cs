@@ -1,5 +1,6 @@
 ﻿using System;
-using ClassesLib.Sockets;
+using System.Net;
+using ClassesLib.Sockets.Server;
 using ClassesLib.Sockets.Settings;
 
 namespace AsyncTcpServer
@@ -10,7 +11,7 @@ namespace AsyncTcpServer
         {
             Console.Title = "TCP Server";
 
-            var servSettings = TcpServerSettings.CreateDefault();
+            var servSettings = new TcpServerSettings {Ip = IPAddress.Any, Port = 3333, ClientCount = 1024};
             var serv = new TcpServer(servSettings);
             serv.Start();
 
