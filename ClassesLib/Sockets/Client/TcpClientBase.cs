@@ -23,43 +23,27 @@ namespace ClassesLib.Sockets.Client
 
         public async Task<int> SendAsync(byte[] msgBytes)
         {
-            try
-            {
-                await client.ConnectAsync(new IPEndPoint(settings.Ip, settings.Port));
-                return client.Connected ? await client.SendAsync(msgBytes, SocketFlags.None) : 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return 0;
-            }
+            await client.ConnectAsync(new IPEndPoint(settings.Ip, settings.Port));
+            return client.Connected ? await client.SendAsync(msgBytes, SocketFlags.None) : 0;
         }
 
         public async Task<byte[]> ReceiveAsync()
         {
-            try
+            using (var ms = new MemoryStream())
             {
-                using (var ms = new MemoryStream())
+                var buff = new byte[4096];
+
+                while (true)
                 {
-                    var buff = new byte[4096];
+                    var recv = await client.ReceiveAsync(buff, SocketFlags.None);
+                    await ms.WriteAsync(buff, 0, recv);
 
-                    while (true)
-                    {
-                        var recv = await client.ReceiveAsync(buff, SocketFlags.None);
-                        await ms.WriteAsync(buff, 0, recv);
+                    if (recv < buff.Length)
+                        break;
 
-                        if (recv < buff.Length)
-                            break;
-
-                        Array.Clear(buff, 0, recv);
-                    }
-                    return ms.ToArray();
+                    Array.Clear(buff, 0, recv);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
+                return ms.ToArray();
             }
         }
 

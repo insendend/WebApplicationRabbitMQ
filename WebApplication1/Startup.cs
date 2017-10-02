@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Serilog;
+using Serilog.Formatting.Json;
+
 
 namespace WebApplication1
 {
@@ -17,9 +15,6 @@ namespace WebApplication1
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext() // any events written directly through Serilog will seamlessly pick up correlation ids like RequestId
-                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -34,9 +29,14 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var logFile = Path.Combine(env.ContentRootPath, "logFile.json");
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(new JsonFormatter(), logFile)
+                .CreateLogger();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            //loggerFactory.AddSerilog(Log.Logger);
+            loggerFactory.AddSerilog(Log.Logger);
 
             if (env.IsDevelopment())
             {

@@ -2,19 +2,23 @@
 using ClassesLib.Rabbit.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Serilog;
 
 namespace ClassesLib.Rabbit.Server
 {
     public abstract class RpcServerBase : IDisposable
     {
-        protected RabbitServSettings settings;
+        private readonly RabbitServSettings settings;
 
         protected IModel channel;
-        protected EventingBasicConsumer consumer;
+        private EventingBasicConsumer consumer;
 
-        protected RpcServerBase(RabbitServSettings settings)
+        protected ILogger logger;
+
+        protected RpcServerBase(RabbitServSettings settings, ILogger logger)
         {
             this.settings = settings;
+            this.logger = logger;
             SetupServer();
         }
 
@@ -35,7 +39,7 @@ namespace ClassesLib.Rabbit.Server
             consumer = new EventingBasicConsumer(channel);
             consumer.Received += MessageReceived;
 
-            Console.WriteLine("Awaiting RPC requests...");
+            logger.Information($"Awaiting for RPC requests at {settings.HostName}...");
         }
 
         public virtual void Start()
@@ -45,7 +49,7 @@ namespace ClassesLib.Rabbit.Server
                 autoAck: false,
                 consumer: consumer);
 
-            Console.WriteLine("Press [enter] to exit.");
+            logger.Information("Press [enter] to exit.");
             Console.WriteLine();
             Console.ReadLine();
         }

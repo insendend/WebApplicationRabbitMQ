@@ -58,6 +58,7 @@ namespace WebApplication1.Controllers
             }
             catch (Exception e)
             {
+                logger.LogError(e, "");
                 Debug.WriteLine(e.Message);
                 return new EmptyResult();
             }

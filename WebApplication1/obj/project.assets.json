@@ -3008,6 +3008,19 @@
           "lib/netstandard1.3/Serilog.dll": {}
         }
       },
+      "Serilog.Extensions.Logging/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "2.0.0",
+          "Serilog": "2.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
+        }
+      },
       "Serilog.Sinks.File/3.2.0": {
         "type": "package",
         "dependencies": {
@@ -3024,22 +3037,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
-        }
-      },
-      "Serilog.Sinks.RollingFile/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Serilog.Sinks.File": "3.2.0",
-          "System.IO": "4.1.0",
-          "System.IO.FileSystem.Primitives": "4.0.1",
-          "System.Runtime.InteropServices": "4.1.0",
-          "System.Text.Encoding.Extensions": "4.0.11"
-        },
-        "compile": {
-          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
         }
       },
       "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -4819,7 +4816,10 @@
         "dependencies": {
           "Microsoft.NETCore.App": "2.0.0",
           "Newtonsoft.Json": "10.0.3",
-          "RabbitMQ.Client": "5.0.1"
+          "RabbitMQ.Client": "5.0.1",
+          "Serilog": "2.5.0",
+          "Serilog.Extensions.Logging": "2.0.2",
+          "Serilog.Sinks.File": "3.2.0"
         },
         "compile": {
           "bin/placeholder/ClassesLib.dll": {}
@@ -7949,6 +7949,25 @@
         "serilog.nuspec"
       ]
     },
+    "Serilog.Extensions.Logging/2.0.2": {
+      "sha512": "PYAkzUn/VV16Es7U06BfEhNZEltnYWu0WFCM4d2lLY/dvlA7xMwFXBuGRxR0XvEBPoOxPorjhFLy9txwiMO6rg==",
+      "type": "package",
+      "path": "serilog.extensions.logging/2.0.2",
+      "files": [
+        "lib/net45/Serilog.Extensions.Logging.dll",
+        "lib/net45/Serilog.Extensions.Logging.xml",
+        "lib/net46/Serilog.Extensions.Logging.dll",
+        "lib/net46/Serilog.Extensions.Logging.xml",
+        "lib/net461/Serilog.Extensions.Logging.dll",
+        "lib/net461/Serilog.Extensions.Logging.xml",
+        "lib/netstandard1.3/Serilog.Extensions.Logging.dll",
+        "lib/netstandard1.3/Serilog.Extensions.Logging.xml",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.dll",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.xml",
+        "serilog.extensions.logging.2.0.2.nupkg.sha512",
+        "serilog.extensions.logging.nuspec"
+      ]
+    },
     "Serilog.Sinks.File/3.2.0": {
       "sha512": "VHbo68pMg5hwSWrzLEdZv5b/rYmIgHIRhd4d5rl8GnC5/a8Fr+RShT5kWyeJOXax1el6mNJ+dmHDOVgnNUQxaw==",
       "type": "package",
@@ -7960,19 +7979,6 @@
         "lib/netstandard1.3/Serilog.Sinks.File.xml",
         "serilog.sinks.file.3.2.0.nupkg.sha512",
         "serilog.sinks.file.nuspec"
-      ]
-    },
-    "Serilog.Sinks.RollingFile/3.3.0": {
-      "sha512": "2lT5X1r3GH4P0bRWJfhA7etGl8Q2Ipw9AACvtAHWRUSpYZ42NGVyHoVs2ALBZ/cAkkS+tA4jl80Zie144eLQPg==",
-      "type": "package",
-      "path": "serilog.sinks.rollingfile/3.3.0",
-      "files": [
-        "lib/net45/Serilog.Sinks.RollingFile.dll",
-        "lib/net45/Serilog.Sinks.RollingFile.xml",
-        "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll",
-        "lib/netstandard1.3/Serilog.Sinks.RollingFile.xml",
-        "serilog.sinks.rollingfile.3.3.0.nupkg.sha512",
-        "serilog.sinks.rollingfile.nuspec"
       ]
     },
     "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -12677,7 +12683,8 @@
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
       "Serilog >= 2.5.0",
-      "Serilog.Sinks.RollingFile >= 3.3.0"
+      "Serilog.Extensions.Logging >= 2.0.2",
+      "Serilog.Sinks.File >= 3.2.0"
     ]
   },
   "packageFolders": {
@@ -12725,15 +12732,13 @@
         ]
       }
     },
-    "dependencies": {
-      "Serilog.Sinks.RollingFile": {
-        "target": "Package",
-        "version": "[3.3.0, )"
-      }
-    },
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Serilog.Sinks.File": {
+            "target": "Package",
+            "version": "3.2.0"
+          },
           "Serilog": {
             "target": "Package",
             "version": "2.5.0"
@@ -12746,6 +12751,10 @@
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "2.0.0"
+          },
+          "Serilog.Extensions.Logging": {
+            "target": "Package",
+            "version": "2.0.2"
           }
         },
         "imports": [

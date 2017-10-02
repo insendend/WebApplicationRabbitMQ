@@ -7,12 +7,13 @@ using ClassesLib.Sockets.Client;
 using ClassesLib.Sockets.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Serilog;
 
 namespace ClassesLib.Rabbit.Server
 {
     public class RpcServer : RpcServerBase
     {
-        public RpcServer(RabbitServSettings settings) : base(settings)
+        public RpcServer(RabbitServSettings settings, ILogger logger) : base(settings, logger)
         {
         }
 
@@ -21,7 +22,7 @@ namespace ClassesLib.Rabbit.Server
             string response = null;
 
             var body = ea.Body;
-            Console.WriteLine($"Received: {body.Length} bytes");
+            logger.Information($"Received: {body.Length} bytes");
 
             var props = ea.BasicProperties;
             var replyProps = channel.CreateBasicProperties();
@@ -32,28 +33,32 @@ namespace ClassesLib.Rabbit.Server
                 ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
 
                 var taskInfo = serializer.DesirializeToObj(body);
+                logger.Information("Received object: {@taskInfo}", taskInfo);
+
                 taskInfo.AddHours(1);
+                logger.Information("Added one hour: {@taskInfo}", taskInfo.Time);
+
                 var objAsBytes = serializer.SerializeToBytes(taskInfo);
 
                 var tcpSettings = new TcpClientSettings {Ip = IPAddress.Loopback, Port = 3333};
                 var client = new TcpClient(tcpSettings);
                 await client.SendAsync(objAsBytes);
-                Console.WriteLine($"Sent: {objAsBytes.Length} bytes");
+                logger.Information($"Sent: {objAsBytes.Length} bytes");
 
                 var recvBytes = await client.ReceiveAsync();
-                Console.WriteLine($"Received back: {recvBytes.Length} bytes");
+                logger.Information($"Received back: {recvBytes.Length} bytes");
 
                 response = Encoding.UTF8.GetString(recvBytes);
             }
             catch (Exception e)
             {
-                Console.WriteLine("[.] " + e.Message);
+                logger.Error(e, "Received msg failed");
                 response = "";
             }
             finally
             {
                 var responseBytes = Encoding.UTF8.GetBytes(response);
-                Console.WriteLine($"Sent back: {responseBytes.Length} bytes");
+                logger.Information($"Sent back: {responseBytes.Length} bytes");
 
                 channel.BasicPublish(
                     exchange: "",

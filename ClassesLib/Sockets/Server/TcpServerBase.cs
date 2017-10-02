@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using ClassesLib.Sockets.Settings;
+using Serilog;
 
 namespace ClassesLib.Sockets.Server
 {
@@ -10,10 +11,12 @@ namespace ClassesLib.Sockets.Server
         private readonly TcpServerSettings settings;
         private readonly Socket server;
         private readonly IPEndPoint endPoint;
+        protected readonly ILogger logger;
 
-        protected TcpServerBase(TcpServerSettings settings)
+        protected TcpServerBase(TcpServerSettings settings, ILogger logger)
         {
             this.settings = settings;
+            this.logger = logger;
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             endPoint = new IPEndPoint(settings.Ip, settings.Port);
         }
@@ -25,12 +28,13 @@ namespace ClassesLib.Sockets.Server
                 server.Bind(endPoint);
                 server.Listen(settings.ClientCount);
 
+                logger.Information($"Awaiting for TCP requests at {server.LocalEndPoint}");
+
                 server.BeginAccept(AcceptCallback, null);
-                Console.WriteLine($"Awaiting for TCP requests at {server.LocalEndPoint}...");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                logger.Error(e, "Start failed");
             }
         }
 
@@ -39,7 +43,7 @@ namespace ClassesLib.Sockets.Server
             try
             {
                 var client = server.EndAccept(ar);
-                Console.WriteLine($"Client {client.RemoteEndPoint} connected.");
+                logger.Information($"Client {client.RemoteEndPoint} connected.");
 
                 var state = new CustomStateObject { Client = client };
 
@@ -50,7 +54,7 @@ namespace ClassesLib.Sockets.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e, "Accept failed");
             }
         }
 
@@ -60,14 +64,13 @@ namespace ClassesLib.Sockets.Server
             {
                 var state = ar.AsyncState as CustomStateObject;
                 state.ReadBytes = state.Client.EndReceive(ar);
-                Console.WriteLine($"Received from {state.Client.RemoteEndPoint} {state.ReadBytes} bytes.");
-
+                logger.Information($"Received from {state.Client.RemoteEndPoint} {state.ReadBytes} bytes.");
                 state.ContentStream
                     .BeginWrite(state.BuffBytes, 0, state.ReadBytes, WriteCallback, state);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e, "Receive data failed");
             }
         }
 
@@ -76,7 +79,7 @@ namespace ClassesLib.Sockets.Server
             var state = ar.AsyncState as CustomStateObject;
 
             try
-            {            
+            {
                 state.ContentStream.EndWrite(ar);
 
                 if (state.ReadBytes < state.BuffBytes.Length)
@@ -91,9 +94,9 @@ namespace ClassesLib.Sockets.Server
                         .BeginReceive(state.BuffBytes, 0, state.BuffBytes.Length, SocketFlags.None, ReceiveCallback, state);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex.Message);
+                logger.Error(e, "Write data failed");
             }
         }
 
@@ -107,19 +110,19 @@ namespace ClassesLib.Sockets.Server
             var client = ar.AsyncState as Socket;
 
             try
-            {               
+            {
                 var sentBytes = client.EndSend(ar);
-                Console.WriteLine($"Sent to {client.RemoteEndPoint} {sentBytes} bytes.");
+                logger.Information($"Sent to {client.RemoteEndPoint} {sentBytes} bytes.");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                logger.Error(e, "Send data failed");
             }
             finally
             {
                 client.Shutdown(SocketShutdown.Both);
                 client.Disconnect(false);
-                Console.WriteLine($"Client {client.RemoteEndPoint} disconnected.");
+                logger.Information($"Client {client.RemoteEndPoint} disconnected.");
                 client.Close();
             }
         }
