@@ -11,16 +11,3 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplicatio
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.pdb
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.deps.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.dev.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.dll
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.pdb
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.dll
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.pdb
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csprojResolveAssemblyReference.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csproj.CoreCompileInputs.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfoInputs.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb

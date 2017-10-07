@@ -36,9 +36,11 @@ namespace ReqSender
             var taskInfo = new TaskInfo
             {
                 Title = "Main",
-                Description = "Text, more Text, text, tex",
+                Description = "Text, more text",
                 Time = DateTime.Now
             };
+
+            Console.WriteLine($"Started time: {taskInfo.Time}");
 
             try
             {

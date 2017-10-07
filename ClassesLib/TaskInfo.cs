@@ -10,6 +10,10 @@ namespace ClassesLib
 
         public DateTime Time { get; set; }
 
-        public void AddHours(int count) => Time = Time.AddHours(count);
+        public void AddHours(int count)
+        {
+            var differentSeconds = DateTime.Now.Second - Time.Second;
+            Time += TimeSpan.FromHours(1) + TimeSpan.FromSeconds(differentSeconds);
+        }
     }
 }

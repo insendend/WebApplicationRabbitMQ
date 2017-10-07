@@ -11,13 +11,3 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\ob
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csprojResolveAssemblyReference.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.deps.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.runtimeconfig.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.runtimeconfig.dev.json
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.dll
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.pdb
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csproj.CoreCompileInputs.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.AssemblyInfoInputs.cache
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.AssemblyInfo.cs
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.dll
-C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplicationRabbitmq\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.pdb
