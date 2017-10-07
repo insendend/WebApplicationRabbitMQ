@@ -5,9 +5,7 @@ Transfer an object through WebApi -> RabbitMQ server -> tcp socket server and ba
 
 ## Screenshots
 ![ScreenShot](https://raw.github.com/insendend/WebApplicationRabbitMQ/master/ClassesLib/Screenshots/1.png)
-
-
-
+***
 ![ScreenShot](https://raw.github.com/insendend/WebApplicationRabbitMQ/master/ClassesLib/Screenshots/2.png)
 
 ![ScreenShot](https://raw.github.com/insendend/WebApplicationRabbitMQ/master/ClassesLib/Screenshots/3.png)
