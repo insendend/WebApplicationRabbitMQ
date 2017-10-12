@@ -2,6 +2,33 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "Autofac/4.6.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
+      "Autofac.Extensions.DependencyInjection/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "4.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1703,6 +1730,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Autofac": "4.6.1",
+          "Autofac.Extensions.DependencyInjection": "4.2.0",
           "Microsoft.NETCore.App": "2.0.0",
           "Newtonsoft.Json": "10.0.3",
           "RabbitMQ.Client": "5.0.1",
@@ -1721,6 +1750,30 @@
     }
   },
   "libraries": {
+    "Autofac/4.6.1": {
+      "sha512": "/feXiAKiSe9XLK+fdnz0p1iDg6JCkOhjqMkw9ewGy0f6IzXgmPLDRa4FUg6nIGRm2sTO677w/76uJ5OJU6EiyA==",
+      "type": "package",
+      "path": "autofac/4.6.1",
+      "files": [
+        "autofac.4.6.1.nupkg.sha512",
+        "autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
+    "Autofac.Extensions.DependencyInjection/4.2.0": {
+      "sha512": "cqBmgg9y7ahGbt7CPdvZFL6bA0PEwFyhIofUoUxEteZc+d0yNnE6ZvIWxHEM2F2HPJlC9SRnHWiZQq8r53moAw==",
+      "type": "package",
+      "path": "autofac.extensions.dependencyinjection/4.2.0",
+      "files": [
+        "autofac.extensions.dependencyinjection.4.2.0.nupkg.sha512",
+        "autofac.extensions.dependencyinjection.nuspec",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.xml"
+      ]
+    },
     "Microsoft.CSharp/4.3.0": {
       "sha512": "P+MBhIM0YX+JqROuf7i306ZLJEjQYA9uUyRDE+OqwUI5sh41e2ZbPQV3LfAPh+29cmceE1pUffXsGfR4eMY3KA==",
       "type": "package",
@@ -5856,11 +5909,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\RabbitMqConsumer\\RabbitMqConsumer.csproj",
+      "projectUniqueName": "E:\\Projects\\WebApplicationRabbitMQ\\RabbitMqConsumer\\RabbitMqConsumer.csproj",
       "projectName": "RabbitMqConsumer",
-      "projectPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\RabbitMqConsumer\\RabbitMqConsumer.csproj",
+      "projectPath": "E:\\Projects\\WebApplicationRabbitMQ\\RabbitMqConsumer\\RabbitMqConsumer.csproj",
       "packagesPath": "C:\\Users\\And\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\RabbitMqConsumer\\obj\\",
+      "outputPath": "E:\\Projects\\WebApplicationRabbitMQ\\RabbitMqConsumer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5879,8 +5932,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\ClassesLib\\ClassesLib.csproj": {
-              "projectPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\ClassesLib\\ClassesLib.csproj"
+            "E:\\Projects\\WebApplicationRabbitMQ\\ClassesLib\\ClassesLib.csproj": {
+              "projectPath": "E:\\Projects\\WebApplicationRabbitMQ\\ClassesLib\\ClassesLib.csproj"
             }
           }
         }
@@ -5891,12 +5944,6 @@
         ]
       }
     },
-    "dependencies": {
-      "Serilog.Sinks.Literate": {
-        "target": "Package",
-        "version": "[3.0.0, )"
-      }
-    },
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
@@ -5904,6 +5951,10 @@
             "target": "Package",
             "version": "2.0.0",
             "autoReferenced": true
+          },
+          "Serilog.Sinks.Literate": {
+            "target": "Package",
+            "version": "3.0.0"
           }
         },
         "imports": [

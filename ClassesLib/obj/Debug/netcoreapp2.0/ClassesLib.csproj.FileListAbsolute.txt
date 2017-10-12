@@ -11,3 +11,14 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\ob
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csprojResolveAssemblyReference.cache
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.deps.json
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.runtimeconfig.json
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.runtimeconfig.dev.json
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.dll
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csproj.CoreCompileInputs.cache
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.AssemblyInfoInputs.cache
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.AssemblyInfo.cs
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.dll
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\ClassesLib\obj\Debug\netcoreapp2.0\ClassesLib.csprojResolveAssemblyReference.cache

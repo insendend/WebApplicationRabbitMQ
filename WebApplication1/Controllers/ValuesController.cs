@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ClassesLib;
 using ClassesLib.Rabbit.Client;
-using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Microsoft.Extensions.Logging;
 
 namespace WebApplication1.Controllers
@@ -14,18 +12,22 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly ILogger<ValuesController> logger;
+        private readonly ILogger<ValuesController> _logger;
+        private readonly ISerializer<TaskInfo> _serializer;
+        private readonly RabbitClientBase _rabbitClientBase;
 
-        public ValuesController(ILogger<ValuesController> logger)
+        public ValuesController(ILogger<ValuesController> logger, ISerializer<TaskInfo> serializer, RabbitClientBase rabbitClientBase)
         {
-            this.logger = logger;
+            _logger = logger;
+            _serializer = serializer;
+            _rabbitClientBase = rabbitClientBase;
         }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new [] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -42,28 +44,24 @@ namespace WebApplication1.Controllers
             if (value is null)
                 return BadRequest();
 
-            logger.LogInformation("{methodName} request for {@taskInfo}", nameof(Post), value);
+            _logger.LogInformation("{methodName} request for {@taskInfo}", nameof(Post), value);
             string response;
-            ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
-            
+       
             try
             {
                 value.AddHours(1);
   
-                var objAsJson = serializer.SerializeToJson(value);
-
-                var settings = new RabbitClientSettings {HostName = "localhost", QueueName = "rpc_queue", Exchange = "exch-rpc" };
-                var rpcClient = new RpcClient(settings);
-                response = rpcClient.Call(objAsJson);
+                var objAsJson = _serializer.SerializeToJson(value);
+                response = _rabbitClientBase.Call(objAsJson);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "");
+                _logger.LogError(e, "");
                 Debug.WriteLine(e.Message);
                 return new EmptyResult();
             }
             
-            return new ObjectResult(serializer.DesirializeToObj(response));
+            return new ObjectResult(_serializer.DesirializeToObj(response));
         }
 
         // PUT api/values/5

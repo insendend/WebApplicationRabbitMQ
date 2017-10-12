@@ -13,3 +13,16 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\RabbitMqConsu
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\RabbitMqConsumer\bin\Debug\netcoreapp2.0\ClassesLib.pdb
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\RabbitMqConsumer\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.csprojResolveAssemblyReference.cache
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\RabbitMqConsumer.deps.json
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\RabbitMqConsumer.runtimeconfig.json
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\RabbitMqConsumer.runtimeconfig.dev.json
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\RabbitMqConsumer.dll
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\RabbitMqConsumer.pdb
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\ClassesLib.dll
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.csproj.CoreCompileInputs.cache
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.AssemblyInfoInputs.cache
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.AssemblyInfo.cs
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.dll
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.pdb
+E:\Projects\WebApplicationRabbitMQ\RabbitMqConsumer\obj\Debug\netcoreapp2.0\RabbitMqConsumer.csprojResolveAssemblyReference.cache

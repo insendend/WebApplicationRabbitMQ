@@ -1,4 +1,6 @@
 ﻿using System;
+using Autofac;
+using ClassesLib.Autofac;
 using ClassesLib.Serialization;
 using ClassesLib.Sockets.Settings;
 using Serilog;
@@ -15,21 +17,21 @@ namespace ClassesLib.Sockets.Server
         {
             try
             {
-                ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+                var serializer = IocContainer.Container.Resolve<ISerializer<TaskInfo>>();
                 var taskInfo = serializer.DesirializeToObj(recvBytes);
 
                 if (taskInfo is null)
                     return null;
-                logger.Information("Received object: {@taskInfo}", taskInfo);
+                Logger.Information("Received object: {@taskInfo}", taskInfo);
 
                 taskInfo.AddHours(1);
-                logger.Information("Added one hour: {@taskInfo}", taskInfo.Time);
+                Logger.Information("Added one hour: {@taskInfo}", taskInfo.Time);
 
                 return serializer.SerializeToBytes(taskInfo);
             }
             catch (Exception e)
             {
-                logger.Error(e, "Processing data failed");
+                Logger.Error(e, "Processing data failed");
                 return null;
             }   
         }

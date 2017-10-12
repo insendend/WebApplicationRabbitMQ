@@ -11,3 +11,16 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplicatio
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.deps.json
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.json
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.dev.json
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.dll
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.pdb
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.dll
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csprojResolveAssemblyReference.cache
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csproj.CoreCompileInputs.cache
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfoInputs.cache
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
+E:\Projects\WebApplicationRabbitMQ\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb

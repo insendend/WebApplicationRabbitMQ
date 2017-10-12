@@ -11,3 +11,16 @@ C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ReqSender\obj
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.pdb
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ReqSender\bin\Debug\netcoreapp2.0\ClassesLib.dll
 C:\Users\And\Documents\Visual Studio 2017\Projects\WebApplication1\ReqSender\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ReqSender.deps.json
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ReqSender.runtimeconfig.json
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ReqSender.runtimeconfig.dev.json
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ReqSender.dll
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ReqSender.pdb
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ClassesLib.dll
+E:\Projects\WebApplicationRabbitMQ\ReqSender\bin\Debug\netcoreapp2.0\ClassesLib.pdb
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.csprojResolveAssemblyReference.cache
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.csproj.CoreCompileInputs.cache
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.AssemblyInfoInputs.cache
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.AssemblyInfo.cs
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.dll
+E:\Projects\WebApplicationRabbitMQ\ReqSender\obj\Debug\netcoreapp2.0\ReqSender.pdb

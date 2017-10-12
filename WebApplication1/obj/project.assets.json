@@ -2,6 +2,33 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "Autofac/4.6.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
+      "Autofac.Extensions.DependencyInjection/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "4.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -3021,6 +3048,21 @@
           "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
         }
       },
+      "Serilog.Sinks.Console/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.5.0",
+          "System.Console": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0"
+        },
+        "compile": {
+          "lib/netcoreapp1.1/Serilog.Sinks.Console.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.1/Serilog.Sinks.Console.dll": {}
+        }
+      },
       "Serilog.Sinks.File/3.2.0": {
         "type": "package",
         "dependencies": {
@@ -3037,6 +3079,18 @@
         },
         "runtime": {
           "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        }
+      },
+      "Serilog.Sinks.Literate/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog.Sinks.Console": "3.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.Literate.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.Literate.dll": {}
         }
       },
       "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -4814,12 +4868,15 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Autofac": "4.6.1",
+          "Autofac.Extensions.DependencyInjection": "4.2.0",
           "Microsoft.NETCore.App": "2.0.0",
           "Newtonsoft.Json": "10.0.3",
           "RabbitMQ.Client": "5.0.1",
           "Serilog": "2.5.0",
           "Serilog.Extensions.Logging": "2.0.2",
-          "Serilog.Sinks.File": "3.2.0"
+          "Serilog.Sinks.File": "3.2.0",
+          "Serilog.Sinks.Literate": "3.0.0"
         },
         "compile": {
           "bin/placeholder/ClassesLib.dll": {}
@@ -4831,6 +4888,30 @@
     }
   },
   "libraries": {
+    "Autofac/4.6.1": {
+      "sha512": "/feXiAKiSe9XLK+fdnz0p1iDg6JCkOhjqMkw9ewGy0f6IzXgmPLDRa4FUg6nIGRm2sTO677w/76uJ5OJU6EiyA==",
+      "type": "package",
+      "path": "autofac/4.6.1",
+      "files": [
+        "autofac.4.6.1.nupkg.sha512",
+        "autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
+    "Autofac.Extensions.DependencyInjection/4.2.0": {
+      "sha512": "cqBmgg9y7ahGbt7CPdvZFL6bA0PEwFyhIofUoUxEteZc+d0yNnE6ZvIWxHEM2F2HPJlC9SRnHWiZQq8r53moAw==",
+      "type": "package",
+      "path": "autofac.extensions.dependencyinjection/4.2.0",
+      "files": [
+        "autofac.extensions.dependencyinjection.4.2.0.nupkg.sha512",
+        "autofac.extensions.dependencyinjection.nuspec",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.xml"
+      ]
+    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -7968,6 +8049,21 @@
         "serilog.extensions.logging.nuspec"
       ]
     },
+    "Serilog.Sinks.Console/3.0.1": {
+      "sha512": "u9jFZu9yT7d7zvH+sRERszf+VAFufEIHOGoFqihVOvlD9G0D/BJnH0QZ3O5jFQxexD0geTeDuUlvq14eVEGqSA==",
+      "type": "package",
+      "path": "serilog.sinks.console/3.0.1",
+      "files": [
+        "lib/net45/Serilog.Sinks.Console.dll",
+        "lib/net45/Serilog.Sinks.Console.xml",
+        "lib/netcoreapp1.1/Serilog.Sinks.Console.dll",
+        "lib/netcoreapp1.1/Serilog.Sinks.Console.xml",
+        "lib/netstandard1.3/Serilog.Sinks.Console.dll",
+        "lib/netstandard1.3/Serilog.Sinks.Console.xml",
+        "serilog.sinks.console.3.0.1.nupkg.sha512",
+        "serilog.sinks.console.nuspec"
+      ]
+    },
     "Serilog.Sinks.File/3.2.0": {
       "sha512": "VHbo68pMg5hwSWrzLEdZv5b/rYmIgHIRhd4d5rl8GnC5/a8Fr+RShT5kWyeJOXax1el6mNJ+dmHDOVgnNUQxaw==",
       "type": "package",
@@ -7979,6 +8075,19 @@
         "lib/netstandard1.3/Serilog.Sinks.File.xml",
         "serilog.sinks.file.3.2.0.nupkg.sha512",
         "serilog.sinks.file.nuspec"
+      ]
+    },
+    "Serilog.Sinks.Literate/3.0.0": {
+      "sha512": "ObduW3qs+t1EUNcXgagSK+gAQrYQOhNgTcOKcytDdfAJQsIVx3297y0fRJyd6VmmuyowxtyIcmzYeJaFDfQt2w==",
+      "type": "package",
+      "path": "serilog.sinks.literate/3.0.0",
+      "files": [
+        "lib/net45/Serilog.Sinks.Literate.dll",
+        "lib/net45/Serilog.Sinks.Literate.xml",
+        "lib/netstandard1.3/Serilog.Sinks.Literate.dll",
+        "lib/netstandard1.3/Serilog.Sinks.Literate.xml",
+        "serilog.sinks.literate.3.0.0.nupkg.sha512",
+        "serilog.sinks.literate.nuspec"
       ]
     },
     "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -12679,12 +12788,11 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "Autofac >= 4.6.1",
+      "Autofac.Extensions.DependencyInjection >= 4.2.0",
       "ClassesLib >= 1.0.0",
       "Microsoft.AspNetCore.All >= 2.0.0",
-      "Microsoft.NETCore.App >= 2.0.0",
-      "Serilog >= 2.5.0",
-      "Serilog.Extensions.Logging >= 2.0.2",
-      "Serilog.Sinks.File >= 3.2.0"
+      "Microsoft.NETCore.App >= 2.0.0"
     ]
   },
   "packageFolders": {
@@ -12697,11 +12805,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\WebApplication1\\WebApplication1.csproj",
+      "projectUniqueName": "E:\\Projects\\WebApplicationRabbitMQ\\WebApplication1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\WebApplication1\\WebApplication1.csproj",
+      "projectPath": "E:\\Projects\\WebApplicationRabbitMQ\\WebApplication1\\WebApplication1.csproj",
       "packagesPath": "C:\\Users\\And\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\WebApplication1\\obj\\",
+      "outputPath": "E:\\Projects\\WebApplicationRabbitMQ\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12720,8 +12828,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\ClassesLib\\ClassesLib.csproj": {
-              "projectPath": "C:\\Users\\And\\Documents\\Visual Studio 2017\\Projects\\WebApplicationRabbitmq\\ClassesLib\\ClassesLib.csproj"
+            "E:\\Projects\\WebApplicationRabbitMQ\\ClassesLib\\ClassesLib.csproj": {
+              "projectPath": "E:\\Projects\\WebApplicationRabbitMQ\\ClassesLib\\ClassesLib.csproj"
             }
           }
         }
@@ -12735,13 +12843,9 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Serilog.Sinks.File": {
+          "Autofac.Extensions.DependencyInjection": {
             "target": "Package",
-            "version": "3.2.0"
-          },
-          "Serilog": {
-            "target": "Package",
-            "version": "2.5.0"
+            "version": "4.2.0"
           },
           "Microsoft.NETCore.App": {
             "target": "Package",
@@ -12752,9 +12856,9 @@
             "target": "Package",
             "version": "2.0.0"
           },
-          "Serilog.Extensions.Logging": {
+          "Autofac": {
             "target": "Package",
-            "version": "2.0.2"
+            "version": "4.6.1"
           }
         },
         "imports": [

@@ -8,33 +8,38 @@ namespace ClassesLib.Sockets.Server
 {
     public abstract class TcpServerBase : IDisposable
     {
-        private readonly TcpServerSettings settings;
-        private readonly Socket server;
-        private readonly IPEndPoint endPoint;
-        protected readonly ILogger logger;
+        private readonly TcpServerSettings _settings;
+        private Socket _server;
+        private IPEndPoint _endPoint;
+        protected readonly ILogger Logger;
 
         protected TcpServerBase(TcpServerSettings settings, ILogger logger)
         {
-            this.settings = settings;
-            this.logger = logger;
-            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            endPoint = new IPEndPoint(settings.Ip, settings.Port);
+            _settings = settings;
+            Logger = logger;          
         }
 
         public void Start()
         {
             try
             {
-                server.Bind(endPoint);
-                server.Listen(settings.ClientCount);
+                _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                _endPoint = new IPEndPoint(_settings.Ip, _settings.Port);
 
-                logger.Information($"Awaiting for TCP requests at {server.LocalEndPoint}");
+                _server.Bind(_endPoint);
+                _server.Listen(_settings.ClientCount);
 
-                server.BeginAccept(AcceptCallback, null);
+                Logger.Information($"Awaiting for TCP requests at {_server.LocalEndPoint}");
+
+                _server.BeginAccept(AcceptCallback, null);
+
+                Logger.Information("Press [enter] to exit.");
+                Console.WriteLine();
+                Console.ReadLine();
             }
             catch (Exception e)
             {
-                logger.Error(e, "Start failed");
+                Logger.Error(e, "Start failed");
             }
         }
 
@@ -42,19 +47,19 @@ namespace ClassesLib.Sockets.Server
         {
             try
             {
-                var client = server.EndAccept(ar);
-                logger.Information($"Client {client.RemoteEndPoint} connected.");
+                var client = _server.EndAccept(ar);
+                Logger.Information($"Client {client.RemoteEndPoint} connected.");
 
                 var state = new CustomStateObject { Client = client };
 
                 client
                     .BeginReceive(state.BuffBytes, 0, state.BuffBytes.Length, SocketFlags.None, ReceiveCallback, state);
 
-                server.BeginAccept(AcceptCallback, null);
+                _server.BeginAccept(AcceptCallback, null);
             }
             catch (Exception e)
             {
-                logger.Error(e, "Accept failed");
+                Logger.Error(e, "Accept failed");
             }
         }
 
@@ -64,13 +69,13 @@ namespace ClassesLib.Sockets.Server
             {
                 var state = ar.AsyncState as CustomStateObject;
                 state.ReadBytes = state.Client.EndReceive(ar);
-                logger.Information($"Received from {state.Client.RemoteEndPoint} {state.ReadBytes} bytes.");
+                Logger.Information($"Received from {state.Client.RemoteEndPoint} {state.ReadBytes} bytes.");
                 state.ContentStream
                     .BeginWrite(state.BuffBytes, 0, state.ReadBytes, WriteCallback, state);
             }
             catch (Exception e)
             {
-                logger.Error(e, "Receive data failed");
+                Logger.Error(e, "Receive data failed");
             }
         }
 
@@ -96,7 +101,7 @@ namespace ClassesLib.Sockets.Server
             }
             catch (Exception e)
             {
-                logger.Error(e, "Write data failed");
+                Logger.Error(e, "Write data failed");
             }
         }
 
@@ -112,17 +117,17 @@ namespace ClassesLib.Sockets.Server
             try
             {
                 var sentBytes = client.EndSend(ar);
-                logger.Information($"Sent to {client.RemoteEndPoint} {sentBytes} bytes.");
+                Logger.Information($"Sent to {client.RemoteEndPoint} {sentBytes} bytes.");
             }
             catch (Exception e)
             {
-                logger.Error(e, "Send data failed");
+                Logger.Error(e, "Send data failed");
             }
             finally
             {
                 client.Shutdown(SocketShutdown.Both);
                 client.Disconnect(false);
-                logger.Information($"Client {client.RemoteEndPoint} disconnected.");
+                Logger.Information($"Client {client.RemoteEndPoint} disconnected.");
                 client.Close();
             }
         }
@@ -134,7 +139,7 @@ namespace ClassesLib.Sockets.Server
 
         public void Dispose()
         {
-            server?.Dispose();
+            _server?.Dispose();
         }
     }
 }

@@ -8,57 +8,59 @@ namespace ClassesLib.Rabbit.Server
 {
     public abstract class RpcServerBase : IDisposable
     {
-        private readonly RabbitServSettings settings;
+        private readonly RabbitServSettings _settings;
 
-        protected IModel channel;
-        private EventingBasicConsumer consumer;
+        protected IModel Channel;
+        private EventingBasicConsumer _consumer;
 
-        protected ILogger logger;
+        protected ILogger Logger;
 
         protected RpcServerBase(RabbitServSettings settings, ILogger logger)
         {
-            this.settings = settings;
-            this.logger = logger;
-            SetupServer();
+            _settings = settings;
+            Logger = logger;
         }
 
         private void SetupServer()
         {
             var factory = new ConnectionFactory
             {
-                HostName = settings.HostName,
-                UserName = settings.Login,
-                Password = settings.Password, 
+                HostName = _settings.HostName,
+                UserName = _settings.Login,
+                Password = _settings.Password, 
             };
 
             var connection = factory.CreateConnection();
-            channel = connection.CreateModel();
+            Channel = connection.CreateModel();
 
-            channel.BasicQos(0, 1, false);
+            Channel.BasicQos(0, 1, false);
 
-            consumer = new EventingBasicConsumer(channel);
-            consumer.Received += MessageReceived;
+            _consumer = new EventingBasicConsumer(Channel);
+            _consumer.Received += MessageReceived;
 
-            logger.Information($"Awaiting for RPC requests at {settings.HostName}...");
+            Logger.Information($"Awaiting for RPC requests at {_settings.HostName}...");
         }
 
         public virtual void Start()
         {
-            channel.BasicConsume(
-                queue: settings.QueueName,
-                autoAck: false,
-                consumer: consumer);
+            SetupServer();
 
-            logger.Information("Press [enter] to exit.");
+            Channel.BasicConsume(
+                queue: _settings.QueueName,
+                autoAck: true,
+                consumer: _consumer);
+
+            Logger.Information("Press [enter] to exit.");
             Console.WriteLine();
             Console.ReadLine();
+            Environment.Exit(0);
         }
 
         protected abstract void MessageReceived(object sender, BasicDeliverEventArgs ea);
 
         public void Dispose()
         {
-            channel?.Dispose();
+            Channel?.Dispose();
         }
     }
 }

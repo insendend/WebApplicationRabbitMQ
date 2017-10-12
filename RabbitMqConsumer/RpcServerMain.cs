@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
+using Autofac;
+using ClassesLib.Autofac;
 using ClassesLib.Rabbit.Server;
-using ClassesLib.Rabbit.Settings;
-using Serilog;
-using Serilog.Formatting.Json;
 
 namespace RabbitMqConsumer
 {
@@ -13,20 +11,8 @@ namespace RabbitMqConsumer
         {
             Console.Title = "RPC Server";
 
-            var logFile = Path.Combine(Environment.CurrentDirectory, "logFile.json");
-            var logger = new LoggerConfiguration()
-                .WriteTo.LiterateConsole()
-                .WriteTo.File(new JsonFormatter(), logFile)
-                .CreateLogger();
-
-            var settings = new RabbitServSettings
-            {
-                QueueName = "rpc_queue",
-                Exchange = "exch-rpc"
-            };
-
-            var rcpServer = new RpcServer(settings, logger);
-            rcpServer.Start();
+            var rpcServer = IocContainer.Container.Resolve<RpcServerBase>();
+            rpcServer.Start();
         }
     }
 }

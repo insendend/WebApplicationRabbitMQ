@@ -9,71 +9,72 @@ namespace ClassesLib.Rabbit.Client
 {
     public abstract class RabbitClientBase : IDisposable
     {
-        protected RabbitClientSettings settings;
+        protected readonly RabbitClientSettings Settings;
 
-        protected IConnection connection;
-        protected IModel channel;
-        protected string replyQueueName;
-        protected EventingBasicConsumer consumer;
-        protected BlockingCollection<string> respQueue = new BlockingCollection<string>();
-        protected IBasicProperties props;
+        protected IConnection Connection;
+        protected IModel Channel;
+        protected string ReplyQueueName;
+        protected EventingBasicConsumer Consumer;
+        protected BlockingCollection<string> RespQueue = new BlockingCollection<string>();
+        protected IBasicProperties Props;
 
-        protected string correlationId;
+        protected string CorrelationId;
 
         protected RabbitClientBase(RabbitClientSettings settings)
         {
-            this.settings = settings;
-            SetupClient();
+            Settings = settings;
         }
 
         private void SetupClient()
         {
             var factory = new ConnectionFactory
             {
-                HostName = settings.HostName,
-                UserName = settings.Login,
-                Password = settings.Password
+                HostName = Settings.HostName,
+                UserName = Settings.Login,
+                Password = Settings.Password
             };
 
-            connection = factory.CreateConnection();
-            channel = connection.CreateModel();
+            Connection = factory.CreateConnection();
+            Channel = Connection.CreateModel();
 
-            replyQueueName = channel.QueueDeclare().QueueName;
+            ReplyQueueName = Channel.QueueDeclare().QueueName;
 
-            props = channel.CreateBasicProperties();
-            correlationId = Guid.NewGuid().ToString();
-            props.CorrelationId = correlationId;
-            props.ReplyTo = replyQueueName;
+            Props = Channel.CreateBasicProperties();
+            CorrelationId = Guid.NewGuid().ToString();
+            Props.CorrelationId = CorrelationId;
+            Props.ReplyTo = ReplyQueueName;
 
 
-            consumer = new EventingBasicConsumer(channel);
-            consumer.Received += MessageReceived;
+            Consumer = new EventingBasicConsumer(Channel);
+            Consumer.Received += MessageReceived;
         }
 
         protected abstract void MessageReceived(object sender, BasicDeliverEventArgs ea);
 
         public virtual string Call(string message)
         {
+            SetupClient();
+
             var messageBytes = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(
-                exchange: settings.Exchange,
-                routingKey: settings.QueueName,
-                basicProperties: props,
+            Channel.BasicPublish(
+                exchange: Settings.Exchange,
+                routingKey: Settings.QueueName,
+                basicProperties: Props,
                 body: messageBytes);
 
-            channel.BasicConsume(
-                consumer: consumer,
-                queue: replyQueueName,
+            Channel.BasicConsume(
+                consumer: Consumer,
+                queue: ReplyQueueName,
                 autoAck: true);
 
-            return respQueue.Take();
+            return RespQueue.Take();
         }
 
         public void Dispose()
         {
-            connection?.Dispose();
-            channel?.Dispose();
-            respQueue?.Dispose();
+            Connection?.Dispose();
+            Channel?.Dispose();
+            RespQueue?.Dispose();
         }
     }
 }

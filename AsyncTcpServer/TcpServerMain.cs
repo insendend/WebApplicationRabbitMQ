@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Net;
+using Autofac;
+using ClassesLib.Autofac;
 using ClassesLib.Sockets.Server;
-using ClassesLib.Sockets.Settings;
-using Serilog;
-using Serilog.Formatting.Json;
 
 namespace AsyncTcpServer
 {
@@ -14,18 +11,8 @@ namespace AsyncTcpServer
         {
             Console.Title = "TCP Server";
 
-            var logFile = Path.Combine(Environment.CurrentDirectory, "logFile.json");
-            var logger = new LoggerConfiguration()
-                .WriteTo.LiterateConsole()
-                .WriteTo.File(new JsonFormatter(), logFile)
-                .CreateLogger();
-            var servSettings = new TcpServerSettings {Ip = IPAddress.Any, Port = 3333, ClientCount = 1024};
-            var serv = new TcpServer(servSettings, logger);
+            var serv = IocContainer.Container.Resolve<TcpServerBase>();
             serv.Start();
-
-            logger.Information("Press [enter] to exit.");
-            Console.WriteLine();
-            Console.ReadLine();
         }
     }
 }

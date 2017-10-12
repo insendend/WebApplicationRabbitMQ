@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using Autofac;
+using ClassesLib.Autofac;
 using ClassesLib.Rabbit.Settings;
 using ClassesLib.Serialization;
 using ClassesLib.Sockets.Client;
@@ -22,51 +24,50 @@ namespace ClassesLib.Rabbit.Server
             string response = null;
 
             var body = ea.Body;
-            logger.Information($"Received: {body.Length} bytes");
+            Logger.Information($"Received: {body.Length} bytes");
 
             var props = ea.BasicProperties;
-            var replyProps = channel.CreateBasicProperties();
+            var replyProps = Channel.CreateBasicProperties();
             replyProps.CorrelationId = props.CorrelationId;
 
             try
             {
-                ISerializer<TaskInfo> serializer = new TaskInfoSerializer();
+                var serializer = IocContainer.Container.Resolve<ISerializer<TaskInfo>>();
 
                 var taskInfo = serializer.DesirializeToObj(body);
-                logger.Information("Received object: {@taskInfo}", taskInfo);
+                Logger.Information("Received object: {@taskInfo}", taskInfo);
 
                 taskInfo.AddHours(1);
-                logger.Information("Added one hour: {@taskInfo}", taskInfo.Time);
+                Logger.Information("Added one hour: {@taskInfo}", taskInfo.Time);
 
                 var objAsBytes = serializer.SerializeToBytes(taskInfo);
 
-                var tcpSettings = new TcpClientSettings {Ip = IPAddress.Loopback, Port = 3333};
-                var client = new TcpClient(tcpSettings);
+                var client = IocContainer.Container.Resolve<TcpClientBase>();
                 await client.SendAsync(objAsBytes);
-                logger.Information($"Sent: {objAsBytes.Length} bytes");
+                Logger.Information($"Sent: {objAsBytes.Length} bytes");
 
                 var recvBytes = await client.ReceiveAsync();
-                logger.Information($"Received back: {recvBytes.Length} bytes");
+                Logger.Information($"Received back: {recvBytes.Length} bytes");
 
                 response = Encoding.UTF8.GetString(recvBytes);
             }
             catch (Exception e)
             {
-                logger.Error(e, "Received msg failed");
+                Logger.Error(e, "Received msg failed");
                 response = "";
             }
             finally
             {
                 var responseBytes = Encoding.UTF8.GetBytes(response);
-                logger.Information($"Sent back: {responseBytes.Length} bytes");
+                Logger.Information($"Sent back: {responseBytes.Length} bytes");
 
-                channel.BasicPublish(
+                Channel.BasicPublish(
                     exchange: "",
                     routingKey: props.ReplyTo,
                     basicProperties: replyProps,
                     body: responseBytes);
 
-                channel.BasicAck(
+                Channel.BasicAck(
                     deliveryTag: ea.DeliveryTag,
                     multiple: false);
             }

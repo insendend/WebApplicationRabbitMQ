@@ -14,9 +14,9 @@ namespace ClassesLib.Rabbit.Client
         {
             var body = ea.Body;
             var response = Encoding.UTF8.GetString(body);
-            if (ea.BasicProperties.CorrelationId == correlationId)
+            if (ea.BasicProperties.CorrelationId == CorrelationId)
             {
-                respQueue.Add(response);
+                RespQueue.Add(response);
             }
         }
     }
